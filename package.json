@@ -1,0 +1,24 @@
+{
+  "name": "maximize-select2-height",
+  "version": "1.0.0",
+  "description": "Automagically maximize the height of a Select2 dropdown to take advantage of the space available on the page.",
+  "main": "maximize-select2-height.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/panorama-ed/maximize-select2-height.git"
+  },
+  "keywords": [
+    "jquery-plugin",
+    "ecosystem:jquery",
+    "select2"
+  ],
+  "author": "Panorama Education",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/panorama-ed/maximize-select2-height/issues"
+  },
+  "homepage": "https://github.com/panorama-ed/maximize-select2-height#readme",
+  "dependencies": {
+    "select2": "^4.0.0"
+  }
+}
