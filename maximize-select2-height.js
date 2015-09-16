@@ -22,28 +22,21 @@
 
   // @param {jQuery object} $select2Results The DOM element with class
   //   "select2-results"
-  // @param {Boolean} dropdownDownwards True iff the dropdown is rendered
-  //   downwards (Select2 sometimes renders the options upwards to better fit on
-  //   a page)
   // @return {Number} the number of pixels in the document above the results DOM
   //   element
-  var topOffset = function ($select2Results, dropdownDownwards) {
+  var topOffset = function ($select2Results) {
     // Choose an offset key that is unlikely to collide with other jQuery data
-    // keys. We cache both upwards and downwards offsets to correctly handle
-    // when the dropdown is rendered downwards and then, on window resizing, it
-    // is rendered upwards. Without caching based on direction, we will draw our
-    // results box above the top of the viewport in this case.
-    var directionStr = dropdownDownwards ? "Downwards" : "Upwards";
-    var offsetKey = "maximizeSelect2Height" + directionStr + "TopOffset";
+    // keys.
+    var OFFSET_KEY = "maximizeSelect2HeightTopOffset";
 
     // We only want to calculate the vertical offset of the DOM element once,
     // both to be more efficient and because when the dropdown is rendered
     // upward we are changing its offset the first time we adjust its height.
-    if (typeof $select2Results.data(offsetKey) === "undefined") {
-      $select2Results.data(offsetKey, $select2Results.offset().top);
+    if (typeof $select2Results.data(OFFSET_KEY) === "undefined") {
+      $select2Results.data(OFFSET_KEY, $select2Results.offset().top);
     }
 
-    return $select2Results.data(offsetKey);
+    return $select2Results.data(OFFSET_KEY);
   };
 
   // @param {Object} options The options object passed in when this plugin is
