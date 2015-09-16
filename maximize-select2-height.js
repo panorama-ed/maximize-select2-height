@@ -22,21 +22,28 @@
 
   // @param {jQuery object} $select2Results The DOM element with class
   //   "select2-results"
+  // @param {Boolean} dropdownDownwards True iff the dropdown is rendered
+  //   downwards (Select2 sometimes renders the options upwards to better fit on
+  //   a page)
   // @return {Number} the number of pixels in the document above the results DOM
   //   element
-  var topOffset = function ($select2Results) {
+  var topOffset = function ($select2Results, dropdownDownwards) {
     // Choose an offset key that is unlikely to collide with other jQuery data
-    // keys.
-    var OFFSET_KEY = "maximizeSelect2HeightTopOffset";
+    // keys. We cache both upwards and downwards offsets to correctly handle
+    // when the dropdown is rendered downwards and then, on window resizing, it
+    // is rendered upwards. Without caching based on direction, we will draw our
+    // results box above the top of the viewport in this case.
+    var directionStr = dropdownDownwards ? "Downwards" : "Upwards";
+    var offsetKey = "maximizeSelect2Height" + directionStr + "TopOffset";
 
     // We only want to calculate the vertical offset of the DOM element once,
     // both to be more efficient and because when the dropdown is rendered
     // upward we are changing its offset the first time we adjust its height.
-    if (typeof $select2Results.data(OFFSET_KEY) === "undefined") {
-      $select2Results.data(OFFSET_KEY, $select2Results.offset().top);
+    if (typeof $select2Results.data(offsetKey) === "undefined") {
+      $select2Results.data(offsetKey, $select2Results.offset().top);
     }
 
-    return $select2Results.data(OFFSET_KEY);
+    return $select2Results.data(offsetKey);
   };
 
   // @param {Object} options The options object passed in when this plugin is
@@ -60,7 +67,6 @@
 
   // @param {jQuery object} $select2Results The DOM element with class
   //   "select2-results"
-  // @param {jQuery object} $parent The parent object of $select2Results
   // @param {Object} options The options object passed in when this plugin is
   //   initialized
   // @param {Boolean} dropdownDownwards True iff the dropdown is rendered
@@ -68,7 +74,7 @@
   //   a page)
   // @return {Number} the maximum height of the Select2 results box to display
   var computeMaxHeight = function (
-    $select2Results, $parent, options, dropdownDownwards
+    $select2Results, options, dropdownDownwards
   ) {
     var height;
     var pixelsAboveDropdown = topOffset($select2Results) - $window.scrollTop();
@@ -100,7 +106,6 @@
                                 .hasClass("select2-dropdown--below");
         var maxHeight = computeMaxHeight(
           $select2Results,
-          $parent,
           options,
           dropdownDownwards
         );
