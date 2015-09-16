@@ -1,4 +1,4 @@
-// maximize-select2-height
+// maximize-select2-height v1.0.0
 // (c) Panorama Education 2015
 // MIT License
 
