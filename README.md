@@ -7,6 +7,8 @@ Select2 on the page, the size and scroll position of the page, the visibility
 of scroll bars, and whether the dropdown is rendered upwards or downwards. And
 it resizes itself each time the dropdown is opened. And minified, it's **<700 bytes** (including comments)!
 
+*(Note that this plugin is built for Select2 v4.x.x only.)*
+
 ## Installation
 
 ```bash
