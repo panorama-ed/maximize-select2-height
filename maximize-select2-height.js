@@ -1,4 +1,4 @@
-// maximize-select2-height v1.0.0
+// maximize-select2-height v1.0.1
 // (c) Panorama Education 2015
 // MIT License
 
@@ -93,21 +93,41 @@
       // Each time the Select2 is opened, resize it to take up as much vertical
       // space as possible given its position and the current viewport size.
       $(el).on("select2:open", function () {
-        var $select2Results = $("#select2-" + el.id + "-results");
-        var $parent = $select2Results.parent();
-        var dropdownDownwards = $parent.parent()
-                                .hasClass("select2-dropdown--below");
-        var maxHeight = computeMaxHeight(
-          $select2Results,
-          options,
-          dropdownDownwards
-        );
+        // We have to put this code block inside a timeout because we determine
+        // whether the dropdown is rendered upwards or downwards via a hack that
+        // looks at the CSS classes, and these aren't set until Select2 has a
+        // chance to render the box, which occurs after this event fires.
 
-        // Set the max height of the relevant DOM elements. We use max-height
-        // instead of height directly to correctly handle cases in which there
-        // are only a few elements (we don't want a giant empty dropdown box).
-        $parent.css("max-height", maxHeight);
-        $select2Results.css("max-height", maxHeight);
+        // The alternative solution that avoids using a timeout would be to
+        // directly modify the document's stylesheets (instead of the styles for
+        // individual elements), but that is both ugly/dangerous and actually
+        // impossible for us because we need to modify the styles of a parent
+        // node of a given DOM node when the parent has no unique ID, which CSS
+        // doesn't have the ability to do.
+        setTimeout(function () {
+          var $select2Results = $("#select2-" + el.id + "-results");
+          var $parent = $select2Results.parent();
+          var dropdownDownwards = $parent.parent()
+                                  .hasClass("select2-dropdown--below");
+          var maxHeight = computeMaxHeight(
+            $select2Results,
+            options,
+            dropdownDownwards
+          );
+
+          // Set the max height of the relevant DOM elements. We use max-height
+          // instead of height directly to correctly handle cases in which there
+          // are only a few elements (we don't want a giant empty dropdown box).
+          $parent.css("max-height", maxHeight);
+          $select2Results.css("max-height", maxHeight);
+
+          // Select2 corrects the positioning of the results box on scroll, so
+          // we trigger that event here to let it auto-correct. This is done for
+          // the case where the dropdown appears upwards; we adjust its max
+          // height but we also want to move it up further, lest it cover up the
+          // initial dropdown box.
+          $(document).trigger("scroll");
+        });
       });
     });
   };
