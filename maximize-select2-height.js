@@ -60,15 +60,15 @@
     if (dropdownDownwards) {
       // When the dropdown appears downwards, the formula is:
       //   total window size
-      // - size of content above results box
-      // - out-of-window pixels we've scrolled past
+      // - (  size of content above results box
+      //    - out-of-window pixels we've scrolled past)
       // ------------------------------------------
       //   total height available to us
 
       // innerHeight is more accurate across browsers than $(window).height().
       height = window.innerHeight -
-               $select2Results.offset().top -
-               $window.scrollTop();
+               ($select2Results.offset().top -
+                $window.scrollTop());
     } else {
       // When the dropdown appears upwards, the formula is:
       //   vertical position of the widget (clickable) dropdown box
