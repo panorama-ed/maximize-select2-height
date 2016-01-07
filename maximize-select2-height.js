@@ -1,4 +1,4 @@
-// maximize-select2-height v1.0.1
+// maximize-select2-height v1.0.2
 // (c) Panorama Education 2015
 // MIT License
 
@@ -20,25 +20,6 @@
   var $window = $(window);
   var $document = $(document);
 
-  // @param {jQuery object} $select2Results The DOM element with class
-  //   "select2-results"
-  // @return {Number} the number of pixels in the document above the results DOM
-  //   element
-  var topOffset = function ($select2Results) {
-    // Choose an offset key that is unlikely to collide with other jQuery data
-    // keys.
-    var OFFSET_KEY = "maximizeSelect2HeightTopOffset";
-
-    // We only want to calculate the vertical offset of the DOM element once,
-    // both to be more efficient and because when the dropdown is rendered
-    // upward we are changing its offset the first time we adjust its height.
-    if (typeof $select2Results.data(OFFSET_KEY) === "undefined") {
-      $select2Results.data(OFFSET_KEY, $select2Results.offset().top);
-    }
-
-    return $select2Results.data(OFFSET_KEY);
-  };
-
   // @param {Object} options The options object passed in when this plugin is
   //   initialized
   // @param {Boolean} dropdownDownwards True iff the dropdown is rendered
@@ -58,8 +39,11 @@
     }, options);
   };
 
+  // @param {String} id The DOM element ID for the original <select> node
   // @param {jQuery object} $select2Results The DOM element with class
   //   "select2-results"
+  // @param {jQuery object} $grandparent The grandparent object of the
+  //   $select2Results object
   // @param {Object} options The options object passed in when this plugin is
   //   initialized
   // @param {Boolean} dropdownDownwards True iff the dropdown is rendered
@@ -67,16 +51,45 @@
   //   a page)
   // @return {Number} the maximum height of the Select2 results box to display
   var computeMaxHeight = function (
-    $select2Results, options, dropdownDownwards
+    id, $select2Results, $grandparent, options, dropdownDownwards
   ) {
     var height;
-    var pixelsAboveDropdown = topOffset($select2Results) - $window.scrollTop();
+    var resultsBoxMiscellaniaHeight;
+    var widgetBoxOffset;
 
     if (dropdownDownwards) {
+      // When the dropdown appears downwards, the formula is:
+      //   visible window size
+      // + out-of-window pixels we've scrolled past
+      // - size of content (including offscreen content) above results box
+      // ------------------------------------------
+      //   total height available to us
+
       // innerHeight is more accurate across browsers than $(window).height().
-      height = window.innerHeight - pixelsAboveDropdown;
+      height = window.innerHeight +
+               $window.scrollTop() -
+               $select2Results.offset().top;
     } else {
-      height = pixelsAboveDropdown;
+      // When the dropdown appears upwards, the formula is:
+      //   vertical position of the widget (clickable) dropdown box
+      // - out-of-window pixels we've scrolled past
+      // - height of the search box and other content above the actual results
+      //   but in the results box
+      // ------------------------------------------
+      //   total height available to us
+
+      // Compute the global vertical offset of the widget box (the one with the
+      // downward arrow that the user clicks on to expose options).
+      widgetBoxOffset = $("#select2-" + id + "-container").
+                        parent().parent().parent().offset().top;
+
+      // Compute the height, if any, of search box and other content in the
+      // results box but not part of the results.
+      resultsBoxMiscellaniaHeight = $grandparent.height() -
+                                    $select2Results.height();
+      height = widgetBoxOffset -
+               $window.scrollTop() -
+               resultsBoxMiscellaniaHeight;
     }
 
     // Leave a little cushion to prevent the dropdown from
@@ -107,10 +120,14 @@
         setTimeout(function () {
           var $select2Results = $("#select2-" + el.id + "-results");
           var $parent = $select2Results.parent();
-          var dropdownDownwards = $parent.parent()
+          var $grandparent = $parent.parent();
+          var dropdownDownwards = $grandparent
                                   .hasClass("select2-dropdown--below");
+
           var maxHeight = computeMaxHeight(
+            el.id,
             $select2Results,
+            $grandparent,
             options,
             dropdownDownwards
           );

@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+    <style>
+      html, body, select {
+        font-family: sans-serif;
+        font-size: 18px;
+        line-height: 18px;
+
+        padding-left: 10px;
+        margin-left: 0;
+      }
+
+      body {
+        /*width: 100%;*/ /* Uncomment for horizontal scrollbar (see README). */
+        background-color: #F1EDC2;
+        padding-top: 400px; /* 400 = upwards, 200 = downwards */
+      }
+    </style>
+  </head>
+  <body>
+    <br><br><br><br><br><br><br><br><br>
+    <select id="test_thing" style="width: 200px">
+      <option></option>
+      <option>One fish</option>
+      <option>Two fish</option>
+      <option>Red fish</option>
+      <option>Blue fish</option>
+      <option>Black fish</option>
+      <option>Blue fish</option>
+      <option>Old fish</option>
+      <option>New fish</option>
+      <option>This one has a little star</option>
+      <option>This one has a little car</option>
+      <option>Say! What a lot of fish there are.</option>
+    </select>
+    <br><br><br><br><br><br><br><br><br> <!-- Comment to test upwards -->
+    <script>
+      // maximize-select2-height v1.0.0
+      // (c) Panorama Education 2015
+      // MIT License
+      // !function(t){"use strict"
+      // var e=t(window),n=t(document),i=function(t){var e="maximizeSelect2HeightTopOffset"
+      // return void 0===t.data(e)&&t.data(e,t.offset().top),t.data(e)},o=function(i,o){return t.extend({cushion:o&&n.width()>e.width()?30:10},i)},c=function(t,n,c){var r,s=i(t)-e.scrollTop()
+      // return r=c?window.innerHeight-s:s,r-o(n,c).cushion}
+      // t.fn.maximizeSelect2Height=function(e){return this.each(function(n,i){t(i).on("select2:open",function(){var n=t("#select2-"+i.id+"-results"),o=n.parent(),r=o.parent().hasClass("select2-dropdown--below"),s=c(n,e,r)
+      // o.css("max-height",s),n.css("max-height",s)})})}}(jQuery)
+
+      // maximize-select2-height v1.0.1
+      // (c) Panorama Education 2015
+      // MIT License
+      // !function(t){"use strict"
+      // var e=t(window),n=t(document),i=function(t){var e="maximizeSelect2HeightTopOffset"
+      // return void 0===t.data(e)&&t.data(e,t.offset().top),t.data(e)},o=function(i,o){return t.extend({cushion:o&&n.width()>e.width()?30:10},i)},c=function(t,n,c){var r,s=i(t)-e.scrollTop()
+      // return r=c?window.innerHeight-s:s,r-o(n,c).cushion}
+      // t.fn.maximizeSelect2Height=function(e){return this.each(function(n,i){t(i).on("select2:open",function(){setTimeout(function(){var n=t("#select2-"+i.id+"-results"),o=n.parent(),r=o.parent().hasClass("select2-dropdown--below"),s=c(n,e,r)
+      // o.css("max-height",s),n.css("max-height",s),t(document).trigger("scroll")})})})}}(jQuery)
+
+      // maximize-select2-height v1.0.2
+      // (c) Panorama Education 2015
+      // MIT License
+      !function(t){"use strict"
+var e=t(window),n=t(document),i=function(i,o){return t.extend({cushion:o&&n.width()>e.width()?30:10},i)},o=function(n,o,r,c,s){var u,h,a
+return s?u=window.innerHeight+e.scrollTop()-o.offset().top:(a=t("#select2-"+n+"-container").parent().parent().parent().offset().top,h=r.height()-o.height(),u=a-e.scrollTop()-h),u-i(c,s).cushion}
+t.fn.maximizeSelect2Height=function(e){return this.each(function(n,i){t(i).on("select2:open",function(){setTimeout(function(){var n=t("#select2-"+i.id+"-results"),r=n.parent(),c=r.parent(),s=c.hasClass("select2-dropdown--below"),u=o(i.id,n,c,e,s)
+r.css("max-height",u),n.css("max-height",u),t(document).trigger("scroll")})})})}}(jQuery)
+
+      $(function () {
+        $("#test_thing").select2({
+          placeholder: "Choose a fish..."
+        }).maximizeSelect2Height();
+      });
+    </script>
+  </body>
+</html>
