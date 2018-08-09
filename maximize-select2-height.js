@@ -1,5 +1,5 @@
-// maximize-select2-height v1.0.2
-// (c) Panorama Education 2015
+// maximize-select2-height v1.0.3
+// (c) Panorama Education 2018
 // MIT License
 
 // This jQuery/Select2 plugin expands a Select2 dropdown to take up as much
@@ -65,8 +65,9 @@
       // ------------------------------------------
       //   total height available to us
 
-      // innerHeight is more accurate across browsers than $(window).height().
-      height = window.innerHeight +
+      // innerHeight is more accurate across browsers than $(window).height(),
+      // but clientHeight works better than innerHeight on mobile browsers.
+      height = window.document.documentElement.clientHeight +
                $window.scrollTop() -
                $select2Results.offset().top;
     } else {
