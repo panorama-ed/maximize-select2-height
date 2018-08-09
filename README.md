@@ -5,7 +5,7 @@ This package is short and simple. It magically expands your [Select2](https://se
 It factors in the number of elements in the dropdown, the position of the
 Select2 on the page, the size and scroll position of the page, the visibility
 of scroll bars, and whether the dropdown is rendered upwards or downwards. And
-it resizes itself each time the dropdown is opened. And minified, it's **<700 bytes** (including comments)!
+it resizes itself each time the dropdown is opened. And minified, it's **~800 bytes** (including comments)!
 
 *(Note that this plugin is built for Select2 v4.x.x only.)*
 
