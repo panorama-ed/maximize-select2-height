@@ -73,9 +73,3 @@ Note that when a `cushion` is passed, the code will not adjust spacing for the
 presence of a horizontal scroll bar, to allow for maximum control.
 
 ![With a custom bottom margin](https://cloud.githubusercontent.com/assets/1114569/9886897/b85714e8-5bba-11e5-80d7-c76be11d1dd9.png)
-
-## Note
-
-**This plugin requires a unique ID on the** `<select></select>`
-**DOM element to work (though you don't have to select by ID with
-jQuery when you initialize this).**

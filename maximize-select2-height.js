@@ -9,9 +9,6 @@
 //   - The effects of scroll bars on the viewport.
 //   - Select2 rendering dropdowns both upwards and downwards.
 
-// NOTE: The original <select> element that is $().select2()'d *must* have a
-// unique ID for this code to work. (Ex: <select id="my-unique-id"></select>)
-
 (function ($) {
   "use strict";
 
@@ -51,7 +48,7 @@
   //   a page)
   // @return {Number} the maximum height of the Select2 results box to display
   var computeMaxHeight = function (
-    id, $select2Results, $grandparent, options, dropdownDownwards
+    element, $select2Results, $grandparent, options, dropdownDownwards
   ) {
     var height;
     var resultsBoxMiscellaniaHeight;
@@ -81,8 +78,7 @@
 
       // Compute the global vertical offset of the widget box (the one with the
       // downward arrow that the user clicks on to expose options).
-      widgetBoxOffset = $("#select2-" + id + "-container").
-                        parent().parent().parent().offset().top;
+      widgetBoxOffset = element.offset().top;
 
       // Compute the height, if any, of search box and other content in the
       // results box but not part of the results.
@@ -119,14 +115,14 @@
         // node of a given DOM node when the parent has no unique ID, which CSS
         // doesn't have the ability to do.
         setTimeout(function () {
-          var $select2Results = $("#select2-" + el.id + "-results");
+          var $select2Results = $('.select2-results__options', $(el).parent());
           var $parent = $select2Results.parent();
           var $grandparent = $parent.parent();
           var dropdownDownwards = $grandparent
                                   .hasClass("select2-dropdown--below");
 
           var maxHeight = computeMaxHeight(
-            el.id,
+            $('.select2-container', $(el).parent()),
             $select2Results,
             $grandparent,
             options,
