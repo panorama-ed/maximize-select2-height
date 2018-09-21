@@ -16,27 +16,81 @@
       body {
         /*width: 100%;*/ /* Uncomment for horizontal scrollbar (see README). */
         background-color: #F1EDC2;
-        padding-top: 400px; /* 400 = upwards, 200 = downwards */
       }
     </style>
   </head>
   <body>
-    <br><br><br><br><br><br><br><br><br>
-    <select id="test_thing" style="width: 200px">
-      <option></option>
-      <option>One fish</option>
-      <option>Two fish</option>
-      <option>Red fish</option>
-      <option>Blue fish</option>
-      <option>Black fish</option>
-      <option>Blue fish</option>
-      <option>Old fish</option>
-      <option>New fish</option>
-      <option>This one has a little star</option>
-      <option>This one has a little car</option>
-      <option>Say! What a lot of fish there are.</option>
-    </select>
-    <br><br><br><br><br><br><br><br><br> <!-- Comment to test upwards -->
+    <div style="position: absolute; top: 600px; left: 200px">
+      <!-- This should be maximized with the id selector -->
+      <select id="test_thing_1" style="width: 200px">
+        <option></option>
+        <option>One fish</option>
+        <option>Two fish</option>
+        <option>Red fish</option>
+        <option>Blue fish</option>
+        <option>Black fish</option>
+        <option>Blue fish</option>
+        <option>Old fish</option>
+        <option>New fish</option>
+        <option>This one has a little star</option>
+        <option>This one has a little car</option>
+        <option>Say! What a lot of fish there are.</option>
+      </select>
+    </div>
+
+    <div style="position: absolute; bottom: 100px; left: 450px">
+      <!-- This should be maximized with the id selector -->
+      <select id="test_thing_2" class="test-class" style="width: 200px">
+        <option></option>
+        <option>One fish</option>
+        <option>Two fish</option>
+        <option>Red fish</option>
+        <option>Blue fish</option>
+        <option>Black fish</option>
+        <option>Blue fish</option>
+        <option>Old fish</option>
+        <option>New fish</option>
+        <option>This one has a little star</option>
+        <option>This one has a little car</option>
+        <option>Say! What a lot of fish there are.</option>
+      </select>
+    </div>
+
+    <div style="position: absolute; top: 300px; left: 700px">
+      <!-- This should also be maximized with the id selector -->
+      <select id="test_thing_3" class="test-class" style="width: 200px">
+        <option></option>
+        <option>One fish</option>
+        <option>Two fish</option>
+        <option>Red fish</option>
+        <option>Blue fish</option>
+        <option>Black fish</option>
+        <option>Blue fish</option>
+        <option>Old fish</option>
+        <option>New fish</option>
+        <option>This one has a little star</option>
+        <option>This one has a little car</option>
+        <option>Say! What a lot of fish there are.</option>
+      </select>
+    </div>
+
+    <div style="position: absolute; top: 300px; left: 950px">
+      <!-- This should _not_ be maximized -->
+      <select class="nothing-of-import" style="width: 200px;">
+        <option></option>
+        <option>One fish</option>
+        <option>Two fish</option>
+        <option>Red fish</option>
+        <option>Blue fish</option>
+        <option>Black fish</option>
+        <option>Blue fish</option>
+        <option>Old fish</option>
+        <option>New fish</option>
+        <option>This one has a little star</option>
+        <option>This one has a little car</option>
+        <option>Say! What a lot of fish there are.</option>
+      </select>
+    </div>
     <script>
       // maximize-select2-height v1.0.3
       // (c) Panorama Education 2018
@@ -48,9 +102,21 @@
       c.css("max-height",u),n.css("max-height",u),t(document).trigger("scroll")})})})}}(jQuery)
 
       $(function () {
-        $("#test_thing").select2({
+        $("#test_thing_1").select2({
           placeholder: "Choose a fish..."
         }).maximizeSelect2Height();
+
+        $("#test_thing_2").select2({
+          placeholder: "Choose a fish..."
+        }).maximizeSelect2Height();
+
+        $("#test_thing_3").select2({
+          placeholder: "Choose a fish..."
+        }).maximizeSelect2Height();
+
+        $(".nothing-of-import").select2({
+          placeholder: "Not maximized..."
+        })
       });
     </script>
   </body>
