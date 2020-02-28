@@ -1,5 +1,5 @@
-// maximize-select2-height v1.0.3
-// (c) Panorama Education 2018
+// maximize-select2-height v1.0.4
+// (c) Panorama Education 2020
 // MIT License
 
 // This jQuery/Select2 plugin expands a Select2 dropdown to take up as much
@@ -51,7 +51,7 @@
   //   a page)
   // @return {Number} the maximum height of the Select2 results box to display
   var computeMaxHeight = function (
-    id, $select2Results, $grandparent, options, dropdownDownwards
+    $select, $select2Results, $grandparent, options, dropdownDownwards
   ) {
     var height;
     var resultsBoxMiscellaniaHeight;
@@ -81,13 +81,13 @@
 
       // Compute the global vertical offset of the widget box (the one with the
       // downward arrow that the user clicks on to expose options).
-      widgetBoxOffset = $("#select2-" + id + "-container").
-                        parent().parent().parent().offset().top;
+      widgetBoxOffset = $select.offset().top;
 
       // Compute the height, if any, of search box and other content in the
       // results box but not part of the results.
       resultsBoxMiscellaniaHeight = $grandparent.height() -
                                     $select2Results.height();
+
       height = widgetBoxOffset -
                $window.scrollTop() -
                resultsBoxMiscellaniaHeight;
@@ -104,9 +104,11 @@
   //   initialized
   $.fn.maximizeSelect2Height = function (options) {
     return this.each(function (_, el) {
+      var $el = $(el);
+
       // Each time the Select2 is opened, resize it to take up as much vertical
       // space as possible given its position and the current viewport size.
-      $(el).on("select2:open", function () {
+      $el.on("select2:open", function () {
         // We have to put this code block inside a timeout because we determine
         // whether the dropdown is rendered upwards or downwards via a hack that
         // looks at the CSS classes, and these aren't set until Select2 has a
@@ -126,7 +128,7 @@
                                   .hasClass("select2-dropdown--below");
 
           var maxHeight = computeMaxHeight(
-            el.id,
+            $el,
             $select2Results,
             $grandparent,
             options,

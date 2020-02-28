@@ -1,6 +1,6 @@
 {
   "name": "maximize-select2-height",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Automagically maximize the height of a Select2 dropdown to take advantage of the space available on the page.",
   "main": "maximize-select2-height.js",
   "repository": {
